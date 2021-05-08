@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <nav class="navbar navbar-dark bg-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" href="#"><h2>Welcome</h2></a>
+        </li>
+    </ul>
+    <p> <a class="btn btn-primary" href="{% url 'login' %}" role="button">Log In</a><nbsp>
+    <a class="btn btn-primary" href="{% url 'signup' %}" role="button">Sign Up</a></p>
+  </nav>
+ <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1 class="mt-2">{%block heading%}Heading{% endblock%}</h1>
+      <hr class="mt-0 mb-4"> 
+        {% block subform %}
+        {%endblock%}
+    </div>
+  </div>
+</div>
+{% endblock %}

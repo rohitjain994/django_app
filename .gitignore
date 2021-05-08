@@ -1,0 +1,7 @@
+# DJango
+*.log
+*.pyc
+__pycache__/
+*.env
+# VS Code
+*.vscode
