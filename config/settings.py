@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'generator',
     'accounts',
     'crispy_forms',
+    'blogs',
+    'subscribe',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -126,8 +129,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+#STATIC_URL: specifies what to append when you call `{% static %}` as template tag. 
 STATIC_URL = '/static/'
 
+#STATIC_ROOT: specifies where exactly you yourself will put your static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
+
+#STATICFILES_DIRS: it tells Django where to look for static files while 
+#serving a request. 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -136,5 +148,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home' # new
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
+# # EMAIL via file system
+# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
+
+#email via smtp
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('SMTP_HOST')
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASS')
