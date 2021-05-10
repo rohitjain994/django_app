@@ -26,7 +26,11 @@ from accounts.forms import SignUpForm
 #     else:
 #         form = UserCreationForm()
 #     return render(request, 'registration/signup.html', {'form': form})
+def about(request):
+    return render(request, 'about.html')
 
+def profile(request):
+    return render(request, 'registration/profile.html')
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>
-    {% block title %}
-        {{ page_title|default:"Untitled Page" }}
-    {% endblock title %}
-    </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -13,35 +8,72 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>
+    {% block title %}
+        {{ page_title|default:"Untitled Page" }}
+    {% endblock title %}
+    </title>
 </head>
-
+{% load static %}
 <body>
-
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      {% comment %} <div class="container"> {% endcomment %}
+        <a class="navbar-brand mr-4" href="{% url 'home' %}">
+        <img src="{% static 'accounts/images/buddha.png' %}" width="30" height="30" alt="buddha" style="display: inline-block;">
+        <span style="display: inline-block;"><h2>Smile</h2></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+          </div>
+          <!-- Navbar Right Side -->
+          <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            {% comment %} <a class="nav-item nav-link" href="{% url 'post_create' %}">New Post</a> {% endcomment %}
+            <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-item nav-link" href="{% url 'signup' %}">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      {% comment %} </div> {% endcomment %}
+    </nav>
+  </header>
 {% block content %} 
 
 {% endblock content %}
+{% if user.is_authenticated %}
 <div id="webchat">
-				{% comment %} <script src="https://storage.googleapis.com/mrbot-cdn/webchat-latest.js"></script> {% endcomment %}
-				<script>!(function () {
-                    let e = document.createElement("script"),
-                        t = document.head || document.getElementsByTagName("head")[0];
-                    (e.src =
-                        "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.0/lib/index.js"),
-                        // Replace 1.x.x with the version that you want
-                        (e.async = !0),
-                        (e.onload = () => {
-                        window.WebChat.default(
-                            {
-                            customData: { language: "en" },
-                            socketUrl: "http://localhost:5005",
-                            // add other props here
-                            },
-                            null
-                        );
-                        }),
-                        t.insertBefore(e, t.firstChild);
-                    })();
-                </script>
-			</div>
+    {% comment %} <script src="https://storage.googleapis.com/mrbot-cdn/webchat-latest.js"></script> {% endcomment %}
+    <script>!(function () {
+        let e = document.createElement("script"),
+            t = document.head || document.getElementsByTagName("head")[0];
+        (e.src =
+            "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.0/lib/index.js"),
+            // Replace 1.x.x with the version that you want
+            (e.async = !0),
+            (e.onload = () => {
+            window.WebChat.default(
+                {
+                customData: { language: "en" },
+                socketUrl: "http://localhost:5005",
+                // add other props here
+                },
+                null
+            );
+            }),
+            t.insertBefore(e, t.firstChild);
+        })();
+    </script>
+</div>
+{% endif %}
 </body>
 </html>
