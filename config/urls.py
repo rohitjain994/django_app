@@ -26,6 +26,9 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
     # path('blog/', include('blogs.urls')), # new
     # path('home/',views.home,name ='home'),
-    path('gen/password/',views.password),
-    path('password/',views.password,name='password'),
+    # path('gen/password/',views.password),
+    # path('password/',views.password,name='password'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
